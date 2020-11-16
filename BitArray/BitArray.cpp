@@ -14,6 +14,38 @@ Num A(Num a, Num P, Num Q)
 	return (a*P + Q) % B;
 }
 
+Num Floyd(Num N, Num S, Num P, Num Q)
+{
+	Num a0 = S % B;
+	Num m = 0, l = 1, k = 1;
+	Num t = A(a0, P, Q), h = A(t, P, Q);
+
+	while (t != h && ++k < N)
+	{
+		t = A(t, P, Q);
+		h = A(A(h, P, Q), P, Q);
+	}
+	if (k == N)
+		return N;
+
+	t = a0;
+	while (t != h)
+	{
+		t = A(t, P, Q);
+		h = A(h, P, Q);
+		++m;
+	}
+
+	h = A(t, P, Q);
+	while (t != h)
+	{
+		h = A(h, P, Q);
+		++l;
+	}
+
+	return m + l;
+}
+
 Num Brent(Num N, Num S, Num P, Num Q)
 {
 	Num a0 = S % B;
@@ -51,7 +83,7 @@ int main()
 	unsigned long N, S, P, Q;
 	cin >> N >> S >> P >> Q;
 
-	cout << Brent(N, S, P, Q);
+	cout << Floyd(N, S, P, Q);
 
 	return 0;
 }
